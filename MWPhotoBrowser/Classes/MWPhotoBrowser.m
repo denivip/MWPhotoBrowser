@@ -216,7 +216,17 @@
     // Navigation buttons
     if ([self.navigationController.viewControllers objectAtIndex:0] == self) {
         // We're first on stack so show done button
-        _doneButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Done", nil) style:UIBarButtonItemStylePlain target:self action:@selector(doneButtonPressed:)];
+        UIButton *customButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        customButton.frame = CGRectMake(0, 0, 60, 25);
+        customButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16.f];
+        [customButton setTitle:@" Back" forState:UIControlStateNormal];
+        [customButton setImage:[UIImage imageNamed:@"backArrow"] forState:UIControlStateNormal];
+        [customButton sizeToFit];
+        [customButton addTarget:self action:@selector(doneButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        _doneButton = [[UIBarButtonItem alloc] initWithCustomView:customButton];
+        UIBarButtonItem *spacingItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+        spacingItem.width = -6.f;
+        
         // Set appearance
         if ([UIBarButtonItem respondsToSelector:@selector(appearance)]) {
             [_doneButton setBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
@@ -226,7 +236,7 @@
             [_doneButton setTitleTextAttributes:[NSDictionary dictionary] forState:UIControlStateNormal];
             [_doneButton setTitleTextAttributes:[NSDictionary dictionary] forState:UIControlStateHighlighted];
         }
-        self.navigationItem.rightBarButtonItem = _doneButton;
+        [self.navigationItem setLeftBarButtonItems:@[spacingItem, _doneButton] animated:NO];
     } else {
         // We're not first so show back button
         UIViewController *previousViewController = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count-2];
