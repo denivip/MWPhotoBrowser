@@ -601,6 +601,11 @@
         self.navigationController.navigationBarHidden = NO;
         self.navigationController.navigationBar.alpha = 0;
     }
+    
+    _currentInterfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
+    if ([self.delegate respondsToSelector:@selector(photoBrowserDidRotateToOrientation:)]) {
+        [self.delegate photoBrowserDidRotateToOrientation:self.currentInterfaceOrientation];
+    }
 }
 
 #pragma mark - Data
