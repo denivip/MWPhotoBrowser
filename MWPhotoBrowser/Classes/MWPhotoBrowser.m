@@ -1462,7 +1462,13 @@
         if ([self numberOfPhotos] > 0 && [photo underlyingImage]) {
             
             // If they have defined a delegate method then just message them
-            if ([self.delegate respondsToSelector:@selector(photoBrowser:actionButtonPressedForPhotoAtIndex:)]) {
+            if ([self.delegate respondsToSelector:@selector(photoBrowser:actionButtonPressedForPhoto:atIndex:)]) {
+                
+                // Let delegate handle things
+                [self.delegate photoBrowser:self actionButtonPressedForPhoto:photo atIndex:_currentPageIndex];
+                
+            }
+            else if ([self.delegate respondsToSelector:@selector(photoBrowser:actionButtonPressedForPhotoAtIndex:)]) {
                 
                 // Let delegate handle things
                 [self.delegate photoBrowser:self actionButtonPressedForPhotoAtIndex:_currentPageIndex];
